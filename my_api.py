@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from work_with_api import UsdAPI , EuroAPI, EthAPI, BtcAPI
 import logging
-
+import requests
 
 app = Flask(__name__)
 
@@ -25,14 +25,12 @@ def get_rates():
     currency = request.args.get("currency")
     amount = request.args.get("amount")
 
-    currencys = {"Usd":  UsdAPI(),
-                 "Euro": EuroAPI(),
-                 "Eth": EthAPI(),
-                 "Btc": BtcAPI()}
+
+    currencys = {currency.__name__[:-3]: currency for currency in [UsdAPI, EuroAPI, EthAPI, BtcAPI]}
 
     logging.info(f"Got {currency} and {amount} , procesing")
     if currency and currency in currencys:
-        answer = currencys[currency].get_rate()
+        answer = currencys[currency]().get_rate()
         if amount:
             try:
                 amount = float(amount)
@@ -48,7 +46,7 @@ def get_rates():
         return jsonify({"message":"Wrong currency, please check if correct"}), 500
 
     else:
-        answer = [n.get_rate() for n in currencys.values()]
+        answer = [n().get_rate() for n in currencys.values()]
         return jsonify(answer), 200
 
 

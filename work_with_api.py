@@ -22,14 +22,14 @@ class UsdAPI(PrivatAPI):
     def get_rate(self):
         if not PrivatAPI.response:
             self.get_privat_api()
-        return float(PrivatAPI.response.json()[0]["sale"])
+        return float(PrivatAPI.response.json()[1]["sale"])
 
 
 class EuroAPI(PrivatAPI):
     def get_rate(self):
         if not PrivatAPI.response:
             self.get_privat_api()
-        return float(PrivatAPI.response.json()[1]["sale"])
+        return float(PrivatAPI.response.json()[0]["sale"])
 
 
 class CryptoAPI():
