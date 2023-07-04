@@ -2,3 +2,5 @@
 *.pyc
 __pycache__/
 response.json
+.db
+test.py
