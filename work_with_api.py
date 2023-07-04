@@ -29,6 +29,7 @@ class EuroAPI(PrivatAPI):
     def get_rate(self):
         if not PrivatAPI.response:
             self.get_privat_api()
+
         return float(PrivatAPI.response.json()[0]["sale"])
 
 

@@ -79,7 +79,7 @@ class TestCurrencyRates(unittest.TestCase):
         self.assertEqual(response.status_code, 500)
 
     def test_unauthorized_access(self):
-        response = requests.get(self.base_url + "?currency=Euro&amount=20")
+        response = requests.get(self.base_url)
         self.assertEqual(response.status_code, 401)
         data = response.json()
         self.assertEqual(data["message"], "ERROR: Unauthorized")
@@ -87,7 +87,7 @@ class TestCurrencyRates(unittest.TestCase):
     def test_unauthorized_access_with_different_token(self):
         headers = {"Token": "cc2"}
         response = requests.get(
-            self.base_url + "?currency=Usff", headers=headers
+            self.base_url, headers=headers
         )
         self.assertEqual(response.status_code, 401)
         data = response.json()
