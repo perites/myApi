@@ -1,9 +1,7 @@
 import requests
 import logging
-from exceptions import *
-
-from getcryptoresponse import *
-
+from exceptions import BadAPIResponse
+import json
 
 class PrivatAPI():
     response = None

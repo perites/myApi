@@ -1,9 +1,8 @@
-
-
 import unittest
 import my_api
 from unittest import mock
 import requests
+
 
 class TestCurrencyRates(unittest.TestCase):
     base_url = "http://127.0.0.1:5000/get-rates"
@@ -30,14 +29,13 @@ class TestCurrencyRates(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     @mock.patch('my_api.requests.get')
-    def test_convert_euro_to_hrn(self , mock_get):
+    def test_convert_euro_to_hrn(self, mock_get):
         mock_response = mock.Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = [{'ccy': 'EUR', 'base_ccy': 'UAH', 'buy': '40.05000', 'sale': '41'}, {
-            'ccy': 'USD', 'base_ccy': 'UAH', 'buy': '36.75000', 'sale': '37.25000'}] # Simulated response from the API
+            'ccy': 'USD', 'base_ccy': 'UAH', 'buy': '36.75000', 'sale': '37.25000'}]  
         mock_get.return_value = mock_response
 
-        # Call the route under test
         with my_api.app.test_client() as client:
             response = client.get(
                 self.base_url + "?currency=Euro&amount=10", headers=self.headers)
@@ -52,10 +50,9 @@ class TestCurrencyRates(unittest.TestCase):
         mock_response = mock.Mock()
         mock_response.status_code = 200
         mock_response.json.return_value = [{'ccy': 'EUR', 'base_ccy': 'UAH', 'buy': '40.05000', 'sale': '41'}, {
-            'ccy': 'USD', 'base_ccy': 'UAH', 'buy': '36.75000', 'sale': '37.25000'}]  # Simulated response from the API
+            'ccy': 'USD', 'base_ccy': 'UAH', 'buy': '36.75000', 'sale': '37.25000'}]  
         mock_get.return_value = mock_response
 
-        # Call the route under test
         with my_api.app.test_client() as client:
             response = client.get(
                 self.base_url + "?currency=Euro&amount=20", headers=self.headers)
@@ -96,5 +93,3 @@ class TestCurrencyRates(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-
