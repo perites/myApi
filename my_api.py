@@ -19,24 +19,24 @@ def get_rates():
 
     headers = request.headers
     token = headers.get("Token")
-    # if not token in tokens:
-    #     logging.info(f"didnt authorised  with token {token}")
-    #     return jsonify({"message": "ERROR: Unauthorized"}), 401
+    if token not in tokens:
+        logging.info(f"didnt authorised  with token {token}")
+        return jsonify({"message": "ERROR: Unauthorized"}), 401
 
     logging.info(f"authorised sucesfuly with token {token}")
     currency = request.args.get("currency")
     amount = request.args.get("amount")
 
     logging.info(f"Got {currency} and {amount} , procesing")
-    currencys = ["Usd", "Euro", 'Eth', "Btc"]
+    currencys = ["Euro", "Usd",'Eth', "Btc"]
     
     if not currency:    
         answer = find_rate() 
         return jsonify(answer), 200 
-    if currency and  currency not in currencys:
+    if currency not in currencys:
         return jsonify({"message": "Wrong currency, please check if correct"}), 500
    
-    answer = find_rate(currency)
+    answer = find_rate(currency , currencys)
     if not amount:    
         return jsonify(answer, currency), 200
     
