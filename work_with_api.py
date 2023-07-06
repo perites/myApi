@@ -3,6 +3,7 @@ import logging
 from exceptions import BadAPIResponse
 import json
 
+
 class PrivatAPI():
     response = None
 

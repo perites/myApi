@@ -28,18 +28,18 @@ def get_rates():
     amount = request.args.get("amount")
 
     logging.info(f"Got {currency} and {amount} , procesing")
-    currencys = ["Euro", "Usd",'Eth', "Btc"]
-    
-    if not currency:    
-        answer = find_rate() 
-        return jsonify(answer), 200 
+    currencys = ["Euro", "Usd", 'Eth', "Btc"]
+
+    if not currency:
+        answer = find_rate()
+        return jsonify(answer), 200
     if currency not in currencys:
         return jsonify({"message": "Wrong currency, please check if correct"}), 500
-   
-    answer = find_rate(currency , currencys)
-    if not amount:    
+
+    answer = find_rate(currency)
+    if not amount:
         return jsonify(answer, currency), 200
-    
+
     try:
         amount = float(amount)
         return jsonify(float(answer)*amount, currency), 200
@@ -47,11 +47,6 @@ def get_rates():
     except Exception as e:
         logging.error(f"Error : {e}")
         return jsonify({"message": "Error happend, please check if amount is a number"}), 500
-
-
-
-    
-
 
 
 if __name__ == '__main__':

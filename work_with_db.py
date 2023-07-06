@@ -21,20 +21,17 @@ def get_rates():
         cur.execute(f"INSERT INTO `RATES` VALUES ('{today}', '{str(UsdAPI().get_rate())}' , '{str(EuroAPI().get_rate())}', '{str(EthAPI().get_rate())}', '{str(BtcAPI().get_rate())}')")
         con.commit()
         logging.info(f"added rates for {today}")
-        # cur.execute("SELECT * FROM `RATES`")
-        # rows = cur.fetchall()
-        
 
     return cur
 
 
-def find_rate(currency=None, currencys=None):
+def find_rate(currency=None):
     cur = get_rates()
 
     if not currency:
         cur.execute("SELECT * FROM `RATES` ORDER BY DATE DESC;")
         return cur.fetchall()[0][1:]
 
-    answer = cur.execute(f"SELECT {'RATE_'+currency.upper()} FROM RATES ")  
+    answer = cur.execute(f"SELECT {'RATE_'+currency.upper()} FROM RATES ")
 
     return answer.fetchall()[0][0]
